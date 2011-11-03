@@ -27,6 +27,6 @@ dom = minidom.parse(urllib.urlopen(url))
 forecasts = []
 for node in dom.getElementsByTagName('title'):
     txt = node.firstChild.wholeText
-    if sys.argv[1] in txt:
+    if sys.argv[1].upper() in txt.upper():
         print(txt)
         os.system('say "%s" > /dev/null 2>&1' % txt.replace('"', '\"'))
