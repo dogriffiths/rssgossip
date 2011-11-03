@@ -19,14 +19,23 @@
 # THE SOFTWARE.
 import urllib
 import os
+import re
 import sys
+import string
+import unicodedata
 from xml.dom import minidom
 
-url = os.environ['RSS_FEED']
-dom = minidom.parse(urllib.urlopen(url))
-forecasts = []
-for node in dom.getElementsByTagName('title'):
-    txt = node.firstChild.wholeText
-    if sys.argv[1].upper() in txt.upper():
-        print(txt)
-        os.system('say "%s" > /dev/null 2>&1' % txt.replace('"', '\"'))
+searcher = re.compile(sys.argv[1], re.IGNORECASE)
+for url in string.split(os.environ['RSS_FEED']):
+    feed = urllib.urlopen(url)
+    try:
+        dom = minidom.parse(feed)
+        forecasts = []
+        for node in dom.getElementsByTagName('title'):
+            txt = node.firstChild.wholeText
+            if searcher.search(txt):
+                txt = unicodedata.normalize('NFKD', txt).encode('ascii', 'ignore')
+                print(txt)
+                os.system('say "%s" > /dev/null 2>&1' % txt.replace('"', '\"'))
+    except:
+        None
