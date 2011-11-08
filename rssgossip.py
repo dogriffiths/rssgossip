@@ -36,6 +36,6 @@ for url in string.split(os.environ['RSS_FEED']):
             if searcher.search(txt):
                 txt = unicodedata.normalize('NFKD', txt).encode('ascii', 'ignore')
                 print(txt)
-                os.system('say "%s" > /dev/null 2>&1' % txt.replace('"', '\"'))
+                #os.system('say "%s" > /dev/null 2>&1' % txt.replace('"', '\"'))
     except:
-        None
+        sys.exit(1)
