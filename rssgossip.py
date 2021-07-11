@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 import urllib
+import urllib2
 import os
 import re
 import sys
@@ -48,7 +49,11 @@ for o, a in opts:
 
 searcher = re.compile(args[0], re.IGNORECASE)
 for url in string.split(os.environ['RSS_FEED']):
-    feed = urllib.urlopen(url)
+    req = urllib2.Request(url, headers={
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/35.0.1916.47 Safari/537.36 '
+    })
+    feed = urllib2.urlopen(req)
     try:
         dom = minidom.parse(feed)
         forecasts = []
