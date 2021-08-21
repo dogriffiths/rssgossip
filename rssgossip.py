@@ -17,7 +17,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-import urllib
+import urllib.request
 import os
 import re
 import sys
@@ -31,8 +31,8 @@ def usage():
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], "uh", ["urls", "help"])
-except getopt.GetoptError, err:
-    print str(err)
+except getopt.GetoptError as err:
+    print(str(err))
     usage()
     sys.exit(2)
 
@@ -47,8 +47,9 @@ for o, a in opts:
         assert False, "unhandled option"
 
 searcher = re.compile(args[0], re.IGNORECASE)
-for url in string.split(os.environ['RSS_FEED']):
-    feed = urllib.urlopen(url)
+RSS = (os.environ['RSS_FEED'])
+for url in RSS.split():
+    feed = urllib.request.urlopen(url)
     try:
         dom = minidom.parse(feed)
         forecasts = []
